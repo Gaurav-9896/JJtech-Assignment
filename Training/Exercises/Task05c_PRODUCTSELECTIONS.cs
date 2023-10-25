@@ -47,9 +47,9 @@ namespace Training
             var store = await _storeService.AddProductSelectionToStore(_storekey ,_productSelectionKey);
             System.Console.WriteLine($"Updated store {store.Key} with selection {store.ProductSelections?.Count}");
 
-            // System.Console.WriteLine($"Updated store {store.Key} with selection {updatedStore.ProductSelections?.Count}");
           
-            /**
+          
+          
             var productSelectionProducts = await _productSelectionService.GetProductSelectionProductByKey(_productSelectionKey);
 
             System.Console.WriteLine($"Products in the product selection: {productSelectionProducts.Results.Count}");

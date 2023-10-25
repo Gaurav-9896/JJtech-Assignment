@@ -20,7 +20,7 @@ namespace Training.Services
     {
         private readonly IClient _client;
         private readonly string _projectKey;
-        
+
         public CartService(IClient client, string projectKey)
         {
             _client = client;
@@ -71,7 +71,7 @@ namespace Training.Services
                     ShippingAddress = customer.GetDefaultShippingAddress(),
                     Currency = "EUR",
 
-                    
+
                 };
                 return await _client
                     .WithApi()
@@ -82,7 +82,7 @@ namespace Training.Services
 
             }
             catch (Exception ex)
-             {
+            {
 
                 throw;
             }
@@ -130,9 +130,9 @@ namespace Training.Services
                     var lineItem = new CartAddLineItemAction()
                     {
                         Action = "addLineItem",
-                        
+
                         Sku = sku,
-                        SupplyChannel = new ChannelResourceIdentifier () { Key = channelKey },
+                        SupplyChannel = new ChannelResourceIdentifier() { Key = channelKey },
                     };
                     actions.Add(lineItem);
                 }
@@ -155,8 +155,8 @@ namespace Training.Services
 
                 throw;
             }
-            
-          
+
+
         }
 
         /// <summary>
@@ -169,26 +169,27 @@ namespace Training.Services
         {
             try
             {
-            var actions = new List<ICartUpdateAction>();
-            var discount = new CartAddDiscountCodeAction()
-            {   Action = "addDiscountCode",
-                Code = code,
-            };
+                var actions = new List<ICartUpdateAction>();
+                var discount = new CartAddDiscountCodeAction()
+                {
+                    Action = "addDiscountCode",
+                    Code = code,
+                };
 
-           actions .Add(discount);
-            var cartUpdate = new CartUpdate()
-            {
-                Version = 4,
-                Actions = actions
-            };
+                actions.Add(discount);
+                var cartUpdate = new CartUpdate()
+                {
+                    Version = 4,
+                    Actions = actions
+                };
 
-            return await _client
-                .WithApi()
-                .WithProjectKey(Settings.ProjectKey)
-                .Carts()
-                .WithId(cart.Id)    
-                .Post(cartUpdate)
-                .ExecuteAsync();
+                return await _client
+                    .WithApi()
+                    .WithProjectKey(Settings.ProjectKey)
+                    .Carts()
+                    .WithId(cart.Id)
+                    .Post(cartUpdate)
+                    .ExecuteAsync();
 
             }
             catch (Exception ex)
@@ -208,26 +209,26 @@ namespace Training.Services
             try
             {
 
-            var actions = new List<ICartUpdateAction>();
-            var recalculate = new CartRecalculateAction()
-            {
-                Action = "recalculate",
-                UpdateProductData = true,
-            };
-            actions .Add(recalculate);
-            var cartUpdate = new CartUpdate()
-            {
-                Actions = actions,
-                Version = 7,
-            };
+                var actions = new List<ICartUpdateAction>();
+                var recalculate = new CartRecalculateAction()
+                {
+                    Action = "recalculate",
+                    UpdateProductData = true,
+                };
+                actions.Add(recalculate);
+                var cartUpdate = new CartUpdate()
+                {
+                    Actions = actions,
+                    Version = 7,
+                };
 
-            return await _client
-                .WithApi()
-                .WithProjectKey(Settings.ProjectKey)
-                .Carts()
-                .WithId(cart.Id)
-                .Post(cartUpdate)
-                .ExecuteAsync();
+                return await _client
+                    .WithApi()
+                    .WithProjectKey(Settings.ProjectKey)
+                    .Carts()
+                    .WithId(cart.Id)
+                    .Post(cartUpdate)
+                    .ExecuteAsync();
             }
             catch (Exception ex)
             {
@@ -246,28 +247,28 @@ namespace Training.Services
             try
             {
 
-            var actions = new List<ICartUpdateAction>();
-            var shippingMethod = new CartSetShippingMethodAction()
-            {
-               Action= "setShippingMethod"
-             
-                }
-               
-            };
-            actions.Add(shippingMethod);
-            var cartUpdate = new CartUpdate()
-            {
-                Actions = actions,
-                Version = 8,
-            };
+                var actions = new List<ICartUpdateAction>();
+                var shippingMethod = new CartSetShippingMethodAction()
+                {
+                    Action = "setShippingMethod"
 
-            return await _client
-                .WithApi()
-                .WithProjectKey(Settings.ProjectKey)
-                .Carts()
-                .WithId(cart.Id)
-                .Post(cartUpdate)
-                .ExecuteAsync();
+
+
+                };
+                actions.Add(shippingMethod);
+                var cartUpdate = new CartUpdate()
+                {
+                    Actions = actions,
+                    Version = 8,
+                };
+
+                return await _client
+                    .WithApi()
+                    .WithProjectKey(Settings.ProjectKey)
+                    .Carts()
+                    .WithId(cart.Id)
+                    .Post(cartUpdate)
+                    .ExecuteAsync();
             }
             catch (Exception ex)
             {
@@ -286,27 +287,27 @@ namespace Training.Services
         {
             try
             {
-            var actions = new List<ICartUpdateAction>();
-            var addpayment = new CartAddPaymentAction()
-            {
-                Action = "addPayment",
-               
+                var actions = new List<ICartUpdateAction>();
+                var addpayment = new CartAddPaymentAction()
+                {
+                    Action = "addPayment",
 
-            };
-            actions.Add(addpayment);
-            var cartUpdate = new CartUpdate()
-            {
-                Actions = actions,
-                Version = cart.Version,
-            };
 
-            return await _client
-                .WithApi()
-                .WithProjectKey(Settings.ProjectKey)
-                .Carts()
-                .WithId(cart.Id)
-                .Post(cartUpdate)
-                .ExecuteAsync();
+                };
+                actions.Add(addpayment);
+                var cartUpdate = new CartUpdate()
+                {
+                    Actions = actions,
+                    Version = cart.Version,
+                };
+
+                return await _client
+                    .WithApi()
+                    .WithProjectKey(Settings.ProjectKey)
+                    .Carts()
+                    .WithId(cart.Id)
+                    .Post(cartUpdate)
+                    .ExecuteAsync();
 
             }
             catch (Exception)
@@ -316,5 +317,6 @@ namespace Training.Services
             }
         }
     }
+}
         
-    }
+    
