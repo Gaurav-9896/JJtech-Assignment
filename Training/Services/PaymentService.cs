@@ -32,27 +32,33 @@ namespace Training.Services
         public async Task<IPayment> CreatePayment(ICart cart, string pspName, string pspMethod,
             string interfaceId)
         {
-            // we create payment object
-            var paymentMethodInfo = new PaymentMethodInfo
-            {
-                Method = pspMethod, // PSP Provider Method: CreditCard
-                PaymentInterface = pspName, // PSP Provider Name: WireCard, ....
-            };
-            var paymentDraft = new PaymentDraft
-            {
-                PaymentMethodInfo = paymentMethodInfo,
-                InterfaceId = interfaceId,
-                AmountPlanned = new CentPrecisionMoneyDraft
+            try
+            { // we create payment object
+                var paymentMethodInfo = new PaymentMethodInfo
                 {
-                    CentAmount = cart.TotalPrice.CentAmount,
-                    CurrencyCode = cart.TotalPrice.CurrencyCode
-                }
-            };
+                    Method = pspMethod, // PSP Provider Method: CreditCard
+                    PaymentInterface = pspName, // PSP Provider Name: WireCard, ....
+                };
+                var paymentDraft = new PaymentDraft
+                {
+                    PaymentMethodInfo = paymentMethodInfo,
+                    InterfaceId = interfaceId,
+                    AmountPlanned = new CentPrecisionMoneyDraft
+                    {
+                        CentAmount = cart.TotalPrice.CentAmount,
+                        CurrencyCode = cart.TotalPrice.CurrencyCode
+                    }
+                };
 
-            return await _client
-                .WithApi().WithProjectKey(Settings.ProjectKey)
-                .Payments()
-                .Post(paymentDraft).ExecuteAsync();
+                return await _client
+                    .WithApi().WithProjectKey(Settings.ProjectKey)
+                    .Payments()
+                    .Post(paymentDraft).ExecuteAsync();
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
         }
 
         /// <summary>

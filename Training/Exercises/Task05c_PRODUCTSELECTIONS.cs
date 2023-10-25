@@ -3,6 +3,7 @@ using commercetools.Sdk.Api.Models.Common;
 using commercetools.Base.Client;
 using commercetools.Sdk.Api.Extensions;
 using Training.Services;
+using commercetools.Sdk.Api.Models.Products;
 
 namespace Training
 {
@@ -15,8 +16,8 @@ namespace Training
     public class Task05C : IExercise
     {
         private readonly IClient _client;
-        private const string _storekey = "";
-        private const string _productSelectionKey = "";
+        private const string _storekey = "key1";
+        private const string _productSelectionKey = "sample";
         private readonly ProductSelectionService _productSelectionService;
         private readonly StoreService _storeService;
 
@@ -32,17 +33,22 @@ namespace Training
         {
 
             // TODO: CREATE a product selection
-            
-            // System.Console.WriteLine($"Product selection: {productSelection.Id} with {productSelection.ProductCount} products");
+            var name = new LocalizedString { { "en", "sample" } };
+            var productSelection = await _productSelectionService.CreateProductSelection(_productSelectionKey,name);
+
+            System.Console.WriteLine($"Product selection: {productSelection.Id} with {productSelection.ProductCount} products");
 
             // TODO: ADD a product to the product selection
-
-            // System.Console.WriteLine($"Berlin Product selection: {updatedProductSelection.Id} with {updatedProductSelection.ProductCount} products");
+            var productKey = "";
+            var updatedProductSelection = await _productSelectionService.AddProductToProductSelection(_productSelectionKey, productKey);
+            System.Console.WriteLine($"Berlin Product selection: {updatedProductSelection.Id} with {updatedProductSelection.ProductCount} products");
 
             // TODO: set product selection for the store
-                
-            // System.Console.WriteLine($"Updated store {store.Key} with selection {updatedStore.ProductSelections?.Count}");
+            var store = await _storeService.AddProductSelectionToStore(_storekey ,_productSelectionKey);
+            System.Console.WriteLine($"Updated store {store.Key} with selection {store.ProductSelections?.Count}");
 
+            // System.Console.WriteLine($"Updated store {store.Key} with selection {updatedStore.ProductSelections?.Count}");
+          
             /**
             var productSelectionProducts = await _productSelectionService.GetProductSelectionProductByKey(_productSelectionKey);
 
@@ -61,7 +67,7 @@ namespace Training
             {
                 System.Console.WriteLine($"{product.Product.Id} through {product.ProductSelection.Id}");
             }
-            **/
+          
 
         }
     }

@@ -35,10 +35,10 @@ namespace Training
                 }
             };
 
-            
+
             // TODO: CREATE a new custom object     
-            
-            // Console.WriteLine($"custom object created with Id {customObject.Id} with version {customObject.Version}");
+            var customObject = await CreateCustomObject("customObjectGroup", "Key", compatibilityInfo);
+            Console.WriteLine($"custom object created with Id {customObject.Id} with version {customObject.Version}");
         }
 
 

@@ -21,6 +21,12 @@ namespace Training
             try
             {
                 //get non existing customer by key
+                var customer = await _client.WithApi()
+                    .WithProjectKey(Settings.ProjectKey)
+                    .Customers()
+                    .WithKey(customerKeyMayOrMayNotExist)
+                    .Get()
+                    .ExecuteAsync();
             }
             catch (NotFoundException e)
             {
