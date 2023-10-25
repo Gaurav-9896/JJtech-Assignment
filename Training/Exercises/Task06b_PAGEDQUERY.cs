@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using commercetools.Sdk.Api.Models.Products;
 using commercetools.Base.Client;
+using commercetools.Sdk.Api.Extensions;
 
 namespace Training
 {
@@ -28,9 +29,16 @@ namespace Training
             while (!lastPage)
             {
                 var where = lastId != null ? $"id>\"{lastId}\"" : null;
-                
+
+
                 // TODO: GET paged response sorted on id
-                response = null;
+
+                response = await _client.WithApi()
+                                  .WithProjectKey(Settings.ProjectKey)
+                                  .Products()
+                                  .Get()
+                                  .WithSort("id asc").WithWhere(where)
+                                  .ExecuteAsync();
 
                 Console.WriteLine($"Show Results of Page {currentPage}");
                 foreach (var product in response.Results)

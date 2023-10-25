@@ -37,7 +37,13 @@ namespace Training
             var facet = "variants.attributes.phonecolor as color";
 
             // TODO: GET product projections paged search response with facets
-            IProductProjectionPagedSearchResponse response = null;
+            IProductProjectionPagedSearchResponse response = await _client.WithApi()
+                                                                    .WithProjectKey(Settings.ProjectKey)
+                                                                     .ProductProjections()
+                                                                     .Search()
+                                                                     .Get()
+                                                                     .WithFilterQuery(filterQuery).WithFacet(facet)
+                                                                     .ExecuteAsync();
             
             //Show Search Results
             Console.WriteLine($"No. of products: {response.Count}");

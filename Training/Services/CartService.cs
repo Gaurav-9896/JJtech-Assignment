@@ -67,9 +67,10 @@ namespace Training.Services
             {
                 var cartDraft = new CartDraft()
                 {
-                    Key = "cart5",
+                    Key = "cart27",
                     ShippingAddress = customer.GetDefaultShippingAddress(),
-                    Currency = "EUR"
+                    Currency = "EUR",
+
                     
                 };
                 return await _client
@@ -131,7 +132,7 @@ namespace Training.Services
                         Action = "addLineItem",
                         
                         Sku = sku,
-                        DistributionChannel = new ChannelResourceIdentifier () { Key = channelKey },
+                        SupplyChannel = new ChannelResourceIdentifier () { Key = channelKey },
                     };
                     actions.Add(lineItem);
                 }
@@ -166,6 +167,8 @@ namespace Training.Services
         /// <returns></returns>
         public async Task<ICart> AddDiscountToCart(ICart cart, string code)
         {
+            try
+            {
             var actions = new List<ICartUpdateAction>();
             var discount = new CartAddDiscountCodeAction()
             {   Action = "addDiscountCode",
@@ -175,7 +178,7 @@ namespace Training.Services
            actions .Add(discount);
             var cartUpdate = new CartUpdate()
             {
-                Version = cart.Version,
+                Version = 4,
                 Actions = actions
             };
 
@@ -186,6 +189,13 @@ namespace Training.Services
                 .WithId(cart.Id)    
                 .Post(cartUpdate)
                 .ExecuteAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         //Recalculate a cart
         /// <summary>
@@ -195,6 +205,9 @@ namespace Training.Services
         /// <returns></returns>
         public async Task<ICart> Recalculate(ICart cart)
         {
+            try
+            {
+
             var actions = new List<ICartUpdateAction>();
             var recalculate = new CartRecalculateAction()
             {
@@ -205,7 +218,7 @@ namespace Training.Services
             var cartUpdate = new CartUpdate()
             {
                 Actions = actions,
-                Version = cart.Version,
+                Version = 7,
             };
 
             return await _client
@@ -215,6 +228,12 @@ namespace Training.Services
                 .WithId(cart.Id)
                 .Post(cartUpdate)
                 .ExecuteAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -224,14 +243,14 @@ namespace Training.Services
         /// <returns></returns>
         public async Task<ICart> SetShipping(ICart cart)
         {
+            try
+            {
+
             var actions = new List<ICartUpdateAction>();
             var shippingMethod = new CartSetShippingMethodAction()
             {
-               Action= "setShippingMethod",
-              ShippingMethod =
-                {
-                    Id = cart.ShippingAddress.Id,
-                    
+               Action= "setShippingMethod"
+             
                 }
                
             };
@@ -239,7 +258,7 @@ namespace Training.Services
             var cartUpdate = new CartUpdate()
             {
                 Actions = actions,
-                Version = cart.Version,
+                Version = 8,
             };
 
             return await _client
@@ -249,6 +268,12 @@ namespace Training.Services
                 .WithId(cart.Id)
                 .Post(cartUpdate)
                 .ExecuteAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -259,6 +284,8 @@ namespace Training.Services
         /// <returns></returns>
         public async Task<ICart> AddPaymentToCart(ICart cart, IPayment payment)
         {
+            try
+            {
             var actions = new List<ICartUpdateAction>();
             var addpayment = new CartAddPaymentAction()
             {
@@ -280,6 +307,13 @@ namespace Training.Services
                 .WithId(cart.Id)
                 .Post(cartUpdate)
                 .ExecuteAsync();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
         

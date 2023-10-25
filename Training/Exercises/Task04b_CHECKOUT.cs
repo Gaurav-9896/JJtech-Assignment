@@ -65,7 +65,7 @@ namespace Training
             // TODO: CREATE a payment 
             string pspname = "wirecard";
             string pspmethod = "creditcard";
-            string interfaceid = "visa";
+            string interfaceid = "visa2";
             var payment =await  _paymentService.CreatePayment(getCart, pspname, pspmethod, interfaceid);
             Console.WriteLine($"Payment Created with Id: {payment.Id}");
 

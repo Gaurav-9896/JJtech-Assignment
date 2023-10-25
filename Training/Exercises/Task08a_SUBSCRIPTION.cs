@@ -31,10 +31,14 @@ namespace Training
                 Topic = "topic-example"
             };
 
-
+            var Messages = new List<IMessageSubscription>();
+            var message = new MessageSubscription()
+            {
+              ResourceTypeId= IMessageSubscriptionResourceTypeId.Order,
+            };
             // TODO: CREATE the subscription
-
-            //Console.WriteLine($"a new subscription created with Id {subscription.Id}");
+            var subscription = await CreateSubscription("Key", destination, Messages);
+            Console.WriteLine($"a new subscription created with Id {subscription.Id}");
         }
 
         /// <summary>
